@@ -5,7 +5,9 @@ var walkSync = require('walk-sync');
 
 function TreeDescriptor(options) {
   this.trees = {};
-  this.trees[options.treeType] = options.tree;
+  if (options.treeType) {
+    this.trees[options.treeType] = options.tree;
+  }
   this._treeTypes = [options.treeType];
   this.packageName = options.packageName;
   this.name = options.name;
