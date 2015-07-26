@@ -11,6 +11,7 @@ function TreeDescriptor(options) {
   this._treeTypes = [options.treeType];
   this.packageName = options.packageName;
   this.name = options.name;
+  this.aliases = options.aliases;
   this.srcDir = options.srcDir;
   this.root = options.root;
   this.pkg = options.pkg;
