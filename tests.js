@@ -61,4 +61,61 @@ describe('tree descriptor model', function() {
     treeDescriptor.update(newDesc);
     expect(treeDescriptor.trees.app._inputNodes).to.deep.eql(['foo', 'bizz']);
   });
+
+  it('should add aliases if they do not exist', function() {
+    var newDesc = new TreeDescriptor({
+      tree: 'bizz',
+      treeType: 'app',
+      packageName: 'foo',
+      name: 'fizzpoo',
+      srcDir: '/',
+      pkg: { name: 'foo', version: '12.0.0' },
+      root: process.cwd(),
+      aliases: {
+        foo: { treeType: 'test' }
+      },
+      nodeModulesPath: path.join(process.cwd(), 'node_modules')
+    });
+
+    treeDescriptor.update(newDesc);
+    expect(treeDescriptor.aliases).to.deep.eql({
+      foo: { treeType: 'test' }
+    });
+  });
+
+  it('should add aliases existing alias with curent ones', function() {
+    var desc1 = new TreeDescriptor({
+      tree: 'bizz',
+      treeType: 'app',
+      packageName: 'foo',
+      name: 'fizzpoo',
+      srcDir: '/',
+      pkg: { name: 'foo', version: '12.0.0' },
+      root: process.cwd(),
+      aliases: {
+        foo: { treeType: 'test' }
+      },
+      nodeModulesPath: path.join(process.cwd(), 'node_modules')
+    });
+
+    var desc2 = new TreeDescriptor({
+      tree: 'bizz',
+      treeType: 'app',
+      packageName: 'foo',
+      name: 'fizzpoo/test',
+      srcDir: '/',
+      pkg: { name: 'foo', version: '12.0.0' },
+      root: process.cwd(),
+      aliases: {
+        bizz: { treeType: 'addon' }
+      },
+      nodeModulesPath: path.join(process.cwd(), 'node_modules')
+    });
+
+    desc1.update(desc2);
+    expect(desc1.aliases).to.deep.eql({
+      foo: { treeType: 'test' },
+      bizz: { treeType: 'addon' }
+    });
+  });
 });

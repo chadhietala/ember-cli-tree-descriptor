@@ -21,6 +21,8 @@ function TreeDescriptor(options) {
 
 TreeDescriptor.prototype.update = function(newDescriptor) {
   var treeType = newDescriptor._treeTypes[0];
+  var aliases = newDescriptor.aliases || {};
+  this.aliases = this._addAliases(this.aliases, aliases);
   this._treeTypes = this._treeTypes.concat(newDescriptor._treeTypes);
   if (!this.trees[treeType]) {
     this.trees[treeType] = newDescriptor.trees[treeType];
@@ -30,6 +32,32 @@ TreeDescriptor.prototype.update = function(newDescriptor) {
       newDescriptor.trees[treeType]
     ], { overwrite: true });
   }
+};
+
+/**
+ * Adds aliases to the existing tree descriptor.
+ * @param  {Object|undefined} currentAliases Current aliases if we have them
+ * @param  {Object} newAliases     New aliases
+ * @return {Object}                aliases
+ */
+TreeDescriptor.prototype._addAliases = function(currentAliases, newAliases) {
+  if (!currentAliases) {
+    return newAliases;
+  }
+  var aliases = {};
+
+  Object.keys(newAliases).forEach(function(alias) {
+    if (!currentAliases[alias]) {
+      aliases[alias] = newAliases[alias];
+    }
+  });
+
+  Object.keys(currentAliases).forEach(function(alias) {
+    aliases[alias] = currentAliases[alias];
+  });
+
+  return aliases;
+
 };
 
 TreeDescriptor.prototype.updateRelativePaths = function() {
