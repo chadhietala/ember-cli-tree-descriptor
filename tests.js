@@ -72,14 +72,14 @@ describe('tree descriptor model', function() {
       pkg: { name: 'foo', version: '12.0.0' },
       root: process.cwd(),
       aliases: {
-        foo: { treeType: 'test' }
+        foo: { name: 'foo', treeType: 'test' }
       },
       nodeModulesPath: path.join(process.cwd(), 'node_modules')
     });
 
     treeDescriptor.update(newDesc);
     expect(treeDescriptor.aliases).to.deep.eql({
-      foo: { treeType: 'test' }
+      foo: { name: 'foo', treeType: 'test' }
     });
   });
 
@@ -93,7 +93,7 @@ describe('tree descriptor model', function() {
       pkg: { name: 'foo', version: '12.0.0' },
       root: process.cwd(),
       aliases: {
-        foo: { treeType: 'test' }
+        foo: { name: 'foo', treeType: 'test' }
       },
       nodeModulesPath: path.join(process.cwd(), 'node_modules')
     });
@@ -107,15 +107,16 @@ describe('tree descriptor model', function() {
       pkg: { name: 'foo', version: '12.0.0' },
       root: process.cwd(),
       aliases: {
-        bizz: { treeType: 'addon' }
+        bizz: { name: 'bizz', treeType: 'addon' }
       },
       nodeModulesPath: path.join(process.cwd(), 'node_modules')
     });
 
     desc1.update(desc2);
+
     expect(desc1.aliases).to.deep.eql({
-      foo: { treeType: 'test' },
-      bizz: { treeType: 'addon' }
+      foo: { name: 'foo', treeType: 'test' },
+      bizz: { name: 'bizz', treeType: 'addon' }
     });
   });
 });
