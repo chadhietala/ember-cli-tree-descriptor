@@ -2,6 +2,7 @@
 
 var mergeTrees = require('broccoli-merge-trees');
 var walkSync = require('walk-sync');
+var debug = require('debug')('TreeDescriptor');
 
 function TreeDescriptor(options) {
   this.trees = {};
@@ -17,6 +18,7 @@ function TreeDescriptor(options) {
   this.pkg = options.pkg;
   this.nodeModulesPath = options.nodeModulesPath;
   this.relativePaths = [];
+  debug('created %s', this.name);
 }
 
 TreeDescriptor.prototype.update = function(newDescriptor) {
@@ -25,8 +27,10 @@ TreeDescriptor.prototype.update = function(newDescriptor) {
   this.aliases = this._addAliases(this.aliases, aliases);
   this._treeTypes = this._treeTypes.concat(newDescriptor._treeTypes);
   if (!this.trees[treeType]) {
+    debug('adding %s tree type to %s', treeType, this.name);
     this.trees[treeType] = newDescriptor.trees[treeType];
   } else {
+    debug('duplicate tree for %s, merging', treeType);
     this.trees[treeType] = mergeTrees([
       this.trees[treeType],
       newDescriptor.trees[treeType]
