@@ -30,7 +30,7 @@ TreeDescriptor.prototype.update = function(newDescriptor) {
     debug('adding %s tree type to %s', treeType, this.name);
     this.trees[treeType] = newDescriptor.trees[treeType];
   } else {
-    debug('duplicate tree for %s, merging', treeType);
+    debug('duplicate %s tree in %s, merging', treeType, this.name);
     this.trees[treeType] = mergeTrees([
       this.trees[treeType],
       newDescriptor.trees[treeType]
