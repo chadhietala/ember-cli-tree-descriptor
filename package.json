@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-tree-descriptor",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Tree descriptor model that is used the packager",
   "main": "index.js",
   "scripts": {
